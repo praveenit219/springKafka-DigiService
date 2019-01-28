@@ -1,0 +1,72 @@
+version: '3.2'
+
+services:
+  mongo:
+    image: mongo:latest
+    command: --smallfiles
+    # expose:
+    # - "27017"
+    ports:
+    - "27017:27017/tcp"
+    hostname: mongo
+    networks:
+    - kafka-net
+
+  mongo_express:
+    image: mongo-express:latest
+    # expose:
+    # - "8081"
+    ports:
+    - "8081:8081/tcp"
+    hostname: mongo_express
+    networks:
+    - kafka-net
+
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    ports:
+    - "2181:2181/tcp"
+    hostname: zookeeper
+    networks:
+    - kafka-net
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    depends_on:
+    - zookeeper
+    # expose:
+    # - "9092"
+    ports:
+    - "9092:9092/tcp"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      #KAFKA_CREATE_TOPICS: "accounts.customer.change:1:1,fulfillment.order.change:1:1,orders.order.fulfill:1:1"
+      KAFKA_CREATE_TOPICS: "REG-application-created:1:1,REG-application-Updated:1:1"
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    hostname: kafka
+    networks:
+    - kafka-net
+
+  kafka_manager:
+    image: hlebalbau/kafka-manager:latest
+    ports:
+    - "9000:9000/tcp"
+    # expose:
+    # - "9000"
+    depends_on:
+    - kafka
+    environment:
+      ZK_HOSTS: "zookeeper:2181"
+      APPLICATION_SECRET: "random-secret"
+    command: -Dpidfile.path=/dev/null
+    hostname: kafka_manager
+    networks:
+    - kafka-net
+
+networks:
+  kafka-net:
+    driver: overlay
