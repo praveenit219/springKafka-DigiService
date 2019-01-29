@@ -1,0 +1,20 @@
+version: '3.2'
+
+services:
+  digitalservice:
+    image: garystafford/storefront-accounts:latest
+    # ports:
+    # - "8080:8080/tcp"
+    depends_on:
+    - kafka
+    - mongo
+    hostname: digiservices
+    # environment:
+    #   LOGGING_LEVEL_ROOT: DEBUG
+    networks:
+    - kafka-net
+
+
+networks:
+  kafka-net:
+    driver: overlay
