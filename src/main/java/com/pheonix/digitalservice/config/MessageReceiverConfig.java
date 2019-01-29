@@ -43,6 +43,9 @@ public class MessageReceiverConfig {
         return props;
     }
     
+   
+    
+    
     @Bean
     public ConsumerFactory<String, Object> consumerFactory() {
 

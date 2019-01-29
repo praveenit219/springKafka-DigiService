@@ -42,11 +42,11 @@ public class Receiver {
     }
     
     
-    @KafkaListener(topics = "${spring.kafka.topic.dgs-applicationRegistration}", containerFactory = "headersKafkaListenerContainerFactory")
+    /*@KafkaListener(topics = "${spring.kafka.topic.dgs-applicationRegistration}", containerFactory = "headersKafkaListenerContainerFactory")
     public void listenWithHeaders(@Payload String message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
         System.out.println("Received Messasge based on header: " + message + " from partition: -->" + partition);
         latch.countDown();
-    }
+    }*/
     
     @KafkaListener(topicPartitions = @TopicPartition(topic = "${spring.kafka.topic.dgs-applicationRegistration}", partitions = { "1", "2" }))
     public void listenToParition(@Payload String message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
