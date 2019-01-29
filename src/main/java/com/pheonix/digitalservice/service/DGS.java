@@ -3,6 +3,7 @@ package com.pheonix.digitalservice.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -81,12 +82,17 @@ public class DGS {
 
 		Query query = new Query();
 		query.addCriteria(Criteria.where("app_no").is(dgsDetails.getApp_no()));
+		
+		//DigitalService userTest1 = mongoOperations.findOne(query, DigitalService.class);
+
+		//System.out.println("DigitalService find - " + userTest1);
 
 		Update update = new Update();
 		update.set("updatedAt",dgsDetails.getUpdatedAt());
 		update.set("svcName", dgsDetails.getSvcName());
 
-		DigitalService dgs =  mongoOperations.findAndModify(query, update, DigitalService.class);
+		DigitalService dgs =  mongoOperations.findAndModify(query, update, new FindAndModifyOptions().returnNew(true),DigitalService.class);
+		//System.out.println("DigitalService find - " + dgs);
 		if(dgs!=null) {
 			afterSaveListener.updateEvent(dgs);
 		}
