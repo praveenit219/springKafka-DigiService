@@ -83,7 +83,7 @@ public class DGS {
 		query.addCriteria(Criteria.where("app_no").is(dgsDetails.getApp_no()));
 
 		Update update = new Update();
-		update.set("dateUpdated",dgsDetails.getUpdatedAt());
+		update.set("updatedAt",dgsDetails.getUpdatedAt());
 		update.set("svcName", dgsDetails.getSvcName());
 
 		DigitalService dgs =  mongoOperations.findAndModify(query, update, DigitalService.class);

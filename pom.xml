@@ -152,7 +152,7 @@
                                     <arg>-Dspring.profiles.active=docker</arg>
                                     <arg>-jar</arg>
                                     <!-- /maven/ is the default dir that the plugin copies your artifact to -->
-                                    <arg>/maven/${project.artifactId}--${version.number}.${project.packaging}</arg>
+                                    <arg>/maven/${project.artifactId}-${version.number}.${project.packaging}</arg>
                                 </exec>
                             </entryPoint>
                             

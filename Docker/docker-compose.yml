@@ -67,19 +67,6 @@ services:
     networks:
     - kafka-net
 
-  digitalservice:
-    image: praveenit219/pheonix-digitalservicekafkaevents:latest
-    ports:
-    - "10185:10185/tcp"
-    depends_on:
-    - kafka
-    - mongo
-    hostname: digiservices
-    environment:
-       LOGGING_LEVEL_ROOT: INFO
-    networks:
-    - kafka-net
-
 networks:
   kafka-net:
     driver: overlay

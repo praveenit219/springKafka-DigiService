@@ -3,7 +3,6 @@ package com.pheonix.digitalservice.controller;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -58,9 +57,9 @@ public class DigitalServiceController {
 	
 	@RequestMapping(path = "/dgs/application/{app_no}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<DigitalService> digitalApplicationSummary(@PathVariable("app_no") String appid) {
+	public ResponseEntity<DigitalService> digitalApplicationSummary(@PathVariable("app_no") String app_no) {
 
-		DigitalService dgs = digitalService.digitalSummaryForApplicationNumber(appid);
+		DigitalService dgs = digitalService.digitalSummaryForApplicationNumber(app_no);
 		return new ResponseEntity<>(dgs, HttpStatus.OK);
 	}
 	

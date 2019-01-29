@@ -84,6 +84,7 @@ public class SampleData {
         dgs1.setCallerId(customer.getIdentity().getIdentityId());
         dgs1.setCustomerDetails(customer);
         dgs1.setCreatedAt(new Date());
+        dgs1.setUpdatedAt(new Date());
         dgs1.setSvcName("APP_REGISTRATION");
         
         dgslist.add(dgs1);
