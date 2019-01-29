@@ -29,10 +29,10 @@ public class Sender {
 	@Autowired
 	private KafkaTemplate<String, Object> kafkaTemplate;
 
-	public void send(String topic, Object payload) {
+	public void send(String topic,int partition,String key, Object payload) {
 
 		log.info("sending payload='{}' to topic='{}'", payload, topic);
-		kafkaTemplate.send(topic, payload);
+		kafkaTemplate.send(topic,partition,key, payload);
 	}
 
 }

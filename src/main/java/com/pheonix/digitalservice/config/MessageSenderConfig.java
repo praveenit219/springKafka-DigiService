@@ -20,7 +20,7 @@ import com.pheonix.digitalservice.messageservice.Sender;
 
 @Configuration
 @EnableKafka
-public class MessageBrokerConfig {
+public class MessageSenderConfig {
 
 	@Value("${spring.kafka.bootstrap-servers}")
 	private String bootstrapServers;

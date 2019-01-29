@@ -41,7 +41,7 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       #KAFKA_CREATE_TOPICS: "accounts.customer.change:1:1,fulfillment.order.change:1:1,orders.order.fulfill:1:1"
-      KAFKA_CREATE_TOPICS: "REG-application-created:1:1,REG-application-Updated:1:1"
+      KAFKA_CREATE_TOPICS: "REG-application-created:5:1,REG-application-Updated:3:1"
       KAFKA_ADVERTISED_PORT: 9092
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_DELETE_TOPIC_ENABLE: "true"
