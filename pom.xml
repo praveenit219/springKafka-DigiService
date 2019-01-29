@@ -134,15 +134,14 @@
 							<alias>${project.artifactId}</alias>
 							<build>
 								<from>anapsix/alpine-java:jre8</from>
-								<tags><!-- define additional tags for the image -->
-									
+								<tags>
 									<tag>latest</tag>
 								</tags>
 								<assembly>
 									<descriptor>assembly.xml</descriptor>
 								</assembly>
 								<ports>
-									<port>10860</port>
+									<port>10185</port>
 								</ports>
 							
 							<entryPoint>
