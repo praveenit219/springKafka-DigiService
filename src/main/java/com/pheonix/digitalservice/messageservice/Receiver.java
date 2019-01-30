@@ -48,13 +48,13 @@ public class Receiver {
         latch.countDown();
     }*/
     
-    @KafkaListener(topicPartitions = @TopicPartition(topic = "${spring.kafka.topic.dgs-applicationRegistration}", partitions = { "1", "2" }))
+    @KafkaListener(topicPartitions = @TopicPartition(topic = "${spring.kafka.topic.dgs-applicationRegistration}", partitions = { "0", "1" }))
     public void listenToParition(@Payload String message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
         System.out.println("Received Message based on partitions for topic create: " + message + " from partition: ==>" + partition);
         this.partitionLatch.countDown();
     }
     
-    @KafkaListener(topicPartitions = @TopicPartition(topic = "${spring.kafka.topic.dgs-applicationRegistrationUpate}", partitions = { "1", "2" }))
+    @KafkaListener(topicPartitions = @TopicPartition(topic = "${spring.kafka.topic.dgs-applicationRegistrationUpate}", partitions = { "0" }))
     public void listenToParitionForAnother(@Payload String message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
         System.out.println("Received Message based on partitions for topic updated : " + message + " from partition: ==>" + partition);
         this.partitionLatch.countDown();

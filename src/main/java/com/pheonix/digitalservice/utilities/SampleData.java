@@ -41,6 +41,7 @@ public class SampleData {
         Contact contact = new Contact();
         contact.setPhone(phone);
         contact.setEmail("john.doe@internet.com");
+        contact.setMailingAddress(AddressType.RESIDENTIAL);
 
        
         List<Address> addressList = new ArrayList<>();
