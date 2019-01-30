@@ -52,7 +52,7 @@ public class AfterSaveListener extends AbstractMongoEventListener<DigitalService
 	
 	 public void updateEventInDiffPar(DigitalService dgs) {
 
-	        log.info("update event='{}'", dgs);
+	        log.info("update updateEventInDiffPar='{}'", dgs);
 	       
 	        ApplicationUpdatedEvent applicationUpdatedEvent = new ApplicationUpdatedEvent();
 	        applicationUpdatedEvent.setId(dgs.getId());
@@ -68,7 +68,7 @@ public class AfterSaveListener extends AbstractMongoEventListener<DigitalService
 	
     public void updateEvent(DigitalService dgs) {
 
-        log.info("update event='{}'", dgs);
+        log.info("update updateEvent='{}'", dgs);
        
         ApplicationUpdatedEvent applicationUpdatedEvent = new ApplicationUpdatedEvent();
         applicationUpdatedEvent.setId(dgs.getId());
