@@ -11,7 +11,8 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/applications
   kafka:
-    bootstrap-servers: praveensmacbook:9092 #check if you are running local it will display in kafka startup logs
+    #bootstrap-servers: praveensmacbook:9092 #check if you are running local it will display in kafka startup logs
+    bootstrap-servers: localhost:9092 #changed as per my windows configuration
     topic:
       dgs-applicationRegistration: REG-application-created
       dgs-applicationRegistrationUpate: REG-application-Updated
