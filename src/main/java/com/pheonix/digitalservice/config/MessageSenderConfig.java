@@ -17,6 +17,8 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import com.pheonix.digitalservice.messageservice.Sender;
+import com.pheonix.digitalservice.model.ApplicationCreatedEvent;
+import com.pheonix.digitalservice.model.ApplicationUpdatedEvent;
 
 @Configuration
 @EnableKafka
@@ -36,16 +38,41 @@ public class MessageSenderConfig {
 		return props;
 	}
 
-	@Bean
+	/*@Bean
 	public ProducerFactory<String, Object> producerFactory() {
 
 		return new DefaultKafkaProducerFactory<>(producerConfigs());
-	}
+	}*/
 
 	@Bean
-	public KafkaTemplate<String, Object> kafkaTemplate() {
+    public ProducerFactory<String, ApplicationCreatedEvent> digitalServiceAppCreatedProducerFactory() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+	
+	@Bean
+    public ProducerFactory<String, ApplicationUpdatedEvent> digitalServiceAppUpdatedProducerFactory() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+	
+	
+	@Bean
+	public KafkaTemplate<String, ApplicationCreatedEvent> applicationCreatedkafkaTemplate() {
 
-		return new KafkaTemplate<>(producerFactory());
+		return new KafkaTemplate<>(digitalServiceAppCreatedProducerFactory());
+	}
+	
+	@Bean
+	public KafkaTemplate<String, ApplicationUpdatedEvent> applicationUpdatedkafkaTemplate() {
+
+		return new KafkaTemplate<>(digitalServiceAppUpdatedProducerFactory());
 	}
 
 	@Bean

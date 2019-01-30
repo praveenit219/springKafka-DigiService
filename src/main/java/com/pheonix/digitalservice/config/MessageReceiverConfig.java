@@ -13,7 +13,6 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
-import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import com.pheonix.digitalservice.messageservice.Receiver;
 
@@ -43,10 +42,38 @@ public class MessageReceiverConfig {
         return props;
     }
     
+    /*//this is replaced with string 
+    @Bean
+    public ConsumerFactory<String, ApplicationCreatedEvent> digitalAppCreatedConsumerFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+        return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new JsonDeserializer<>(ApplicationCreatedEvent.class));
+    }
    
-    
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ApplicationCreatedEvent> digitalAppCreatedKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ApplicationCreatedEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(digitalAppCreatedConsumerFactory());
+        return factory;
+    }
     
     @Bean
+    public ConsumerFactory<String, ApplicationUpdatedEvent> digitalAppUpdateConsumerFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+        return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new JsonDeserializer<>(ApplicationUpdatedEvent.class));
+    }
+   
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ApplicationUpdatedEvent> digitalAppUpdatedKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ApplicationUpdatedEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(digitalAppUpdateConsumerFactory());
+        return factory;
+    } */
+    
+   /* @Bean
     public ConsumerFactory<String, Object> consumerFactory() {
 
         return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(),
@@ -57,6 +84,26 @@ public class MessageReceiverConfig {
     ConcurrentKafkaListenerContainerFactory<String, Object> kafkaListenerContainerFactory() {
 
         ConcurrentKafkaListenerContainerFactory<String, Object> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        factory.setMessageConverter(new StringJsonMessageConverter());
+
+        return factory;
+    } */
+    
+    
+
+    @Bean
+    public ConsumerFactory<String, String> consumerFactory() {
+
+        return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(),
+                new StringDeserializer());
+    }
+
+    @Bean
+    ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
+
+        ConcurrentKafkaListenerContainerFactory<String, String> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.setMessageConverter(new StringJsonMessageConverter());

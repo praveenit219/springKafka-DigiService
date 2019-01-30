@@ -47,7 +47,7 @@ public class AfterSaveListener extends AbstractMongoEventListener<DigitalService
         applicationCreatedEvent.setAppStatus(dgs.getAppStatus());
         applicationCreatedEvent.setCustomerDetails(dgs.getCustomerDetails());
        
-        sender.send(applicationcreatedtopic,1,dgs.getApp_no(),applicationCreatedEvent);
+        sender.sendApplicationCreatedTemplate(applicationcreatedtopic,1,dgs.getApp_no(),applicationCreatedEvent);
     }
 	
 	 public void updateEventInDiffPar(DigitalService dgs) {
@@ -62,7 +62,7 @@ public class AfterSaveListener extends AbstractMongoEventListener<DigitalService
 	        applicationUpdatedEvent.setUpdatedAt(dgs.getUpdatedAt());
 	        applicationUpdatedEvent.setSvcName(dgs.getSvcName());
 	       
-	        sender.send(applicationcreatedtopic,1,dgs.getApp_no(), applicationUpdatedEvent);
+	        sender.sendApplicationUdpatedTemplate(applicationcreatedtopic,2,dgs.getApp_no(), applicationUpdatedEvent);
 	    }
 	
 	
@@ -78,7 +78,7 @@ public class AfterSaveListener extends AbstractMongoEventListener<DigitalService
         applicationUpdatedEvent.setUpdatedAt(dgs.getUpdatedAt());
         applicationUpdatedEvent.setSvcName(dgs.getSvcName());
        
-        sender.send(applicationupdatedtopic,2,dgs.getApp_no(), applicationUpdatedEvent);
+        sender.sendApplicationUdpatedTemplate(applicationupdatedtopic,1,dgs.getApp_no(), applicationUpdatedEvent);
     }
 
 
