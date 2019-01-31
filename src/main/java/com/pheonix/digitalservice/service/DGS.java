@@ -95,7 +95,7 @@ public class DGS {
 		//System.out.println("DigitalService find - " + dgs);
 		if(dgs!=null) {
 			afterSaveListener.updateEvent(dgs);
-			afterSaveListener.updateEventInDiffPar(dgs);
+			//afterSaveListener.updateEventInDiffPar(dgs);
 		}
 		return dgs;
 	}

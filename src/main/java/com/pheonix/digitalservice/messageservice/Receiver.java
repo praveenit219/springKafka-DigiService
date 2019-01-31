@@ -3,10 +3,6 @@ package com.pheonix.digitalservice.messageservice;
 import java.util.concurrent.CountDownLatch;
 
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.annotation.TopicPartition;
-import org.springframework.kafka.support.KafkaHeaders;
-import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import com.pheonix.digitalservice.model.ApplicationCreatedEvent;
@@ -33,13 +29,13 @@ public class Receiver {
     }
 
     
-    @KafkaListener(topics = "${spring.kafka.topic.dgs-applicationRegistration}")
+    @KafkaListener(topics = "${spring.kafka.topic.dgs-applicationRegistration}", containerFactory = "digitalAppCreatedKafkaListenerContainerFactory")
     public void receiveAppRegistration(ApplicationCreatedEvent dgs) {
 
         log.info("receiveAppRegistration payload='{}'", dgs);
         latch.countDown();
        
-    }
+    } 
     
     
     /*@KafkaListener(topics = "${spring.kafka.topic.dgs-applicationRegistration}", containerFactory = "headersKafkaListenerContainerFactory")
@@ -48,32 +44,35 @@ public class Receiver {
         latch.countDown();
     }*/
     
-    @KafkaListener(topicPartitions = @TopicPartition(topic = "${spring.kafka.topic.dgs-applicationRegistration}", partitions = { "0", "1" }))
+    
+    
+   // @KafkaListener(topicPartitions = @TopicPartition(topic = "${spring.kafka.topic.dgs-applicationRegistration}", partitions = { "0", "1" }))
+   /* @KafkaListener(topicPartitions = { @TopicPartition(topic = "${spring.kafka.topic.dgs-applicationRegistration}", partitions = { "0", "1" }) }, containerFactory = "digitalAppCreatedKafkaListenerContainerFactory")
     public void listenToParition(@Payload String message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
         System.out.println("Received Message based on partitions for topic create: " + message + " from partition: ==>" + partition);
         this.partitionLatch.countDown();
-    }
+    } */
     
-    @KafkaListener(topicPartitions = @TopicPartition(topic = "${spring.kafka.topic.dgs-applicationRegistrationUpate}", partitions = { "0" }))
+  /*  @KafkaListener(topicPartitions = @TopicPartition(topic = "${spring.kafka.topic.dgs-applicationRegistrationUpate}", partitions = { "0" }))
     public void listenToParitionForAnother(@Payload String message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
         System.out.println("Received Message based on partitions for topic updated : " + message + " from partition: ==>" + partition);
         this.partitionLatch.countDown();
-    }
+    } */
     
-    @KafkaListener(topics = "${spring.kafka.topic.dgs-applicationRegistrationUpate}")
+   /* @KafkaListener(topics = "${spring.kafka.topic.dgs-applicationRegistrationUpate}")
     public void receiveAppUpdateInPartition(ApplicationUpdatedEvent dgs) {
 
         log.info("receiveAppUpdateInPartition payload='{}'", dgs);
         latch.countDown();
        
-    }
+    } */
     
-    @KafkaListener(topics = "${spring.kafka.topic.dgs-applicationRegistrationUpate}")
+   @KafkaListener(topics = "${spring.kafka.topic.dgs-applicationRegistrationUpate}", containerFactory = "digitalAppUpdatedKafkaListenerContainerFactory")
     public void receiveAppUpdate(ApplicationUpdatedEvent dgs) {
 
         log.info("receiveAppUpdate payload='{}'", dgs);
         latch.countDown();
        
-    }
+    } 
 
 }

@@ -12,6 +12,7 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import com.pheonix.digitalservice.messageservice.Receiver;
@@ -37,11 +38,29 @@ public class MessageReceiverConfig {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
 
         return props;
+    }
+
+    @Bean
+    public ConsumerFactory<String, String> consumerFactory() {
+
+        return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(),
+                new StringDeserializer());
+    }
+
+    @Bean
+    ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
+
+        ConcurrentKafkaListenerContainerFactory<String, String> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        factory.setMessageConverter(new StringJsonMessageConverter());
+
+        return factory;
     }
     
     /*//this is replaced with string 
@@ -93,12 +112,7 @@ public class MessageReceiverConfig {
         return factory;
     } */
     
-    @Bean
-    public ConsumerFactory<String, Object> consumerFactory() {
-
-        return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(),
-        		new JsonDeserializer<>(Object.class));
-    }
+   
     
     @Bean
     public ConsumerFactory<String, ApplicationUpdatedEvent> digitalAppUpdateConsumerFactory() {
@@ -110,6 +124,7 @@ public class MessageReceiverConfig {
     public ConcurrentKafkaListenerContainerFactory<String, ApplicationUpdatedEvent> digitalAppUpdatedKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, ApplicationUpdatedEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(digitalAppUpdateConsumerFactory());
+        //factory.setMessageConverter(new StringJsonMessageConverter());
         return factory;
     }
     
@@ -123,6 +138,7 @@ public class MessageReceiverConfig {
     public ConcurrentKafkaListenerContainerFactory<String, ApplicationCreatedEvent> digitalAppCreatedKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, ApplicationCreatedEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(digitalAppCreatedConsumerFactory());
+        //factory.setMessageConverter(new StringJsonMessageConverter());
         return factory;
     }
     /*
