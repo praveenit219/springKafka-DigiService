@@ -94,6 +94,13 @@ public class MessageReceiverConfig {
     } */
     
     @Bean
+    public ConsumerFactory<String, Object> consumerFactory() {
+
+        return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(),
+        		new JsonDeserializer<>(Object.class));
+    }
+    
+    @Bean
     public ConsumerFactory<String, ApplicationUpdatedEvent> digitalAppUpdateConsumerFactory() {
        
         return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(), new JsonDeserializer<>(ApplicationUpdatedEvent.class));
