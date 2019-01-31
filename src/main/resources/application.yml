@@ -15,7 +15,8 @@ spring:
     bootstrap-servers: localhost:9092 #changed as per my windows configuration
     topic:
       dgs-applicationRegistration: REG-application-created
-      dgs-applicationRegistrationUpate: REG-application-Updated
+      #dgs-applicationRegistrationUpate: REG-application-Updated
+      dgs-applicationRegistrationUpate: partitioned
     consumer:
       group-id: cloudMs
       auto-offset-reset: earliest
